@@ -56,7 +56,7 @@ This repository is organized as an R package. There are no actual R functions in
 To download the package source as you see it on GitHub, for offline browsing, use this line at the shell prompt (assuming you have Git installed on your computer):
 
 ```{r eval=FALSE}
-git clone https://github.com/benmarwick/researchcompendium.git
+git clone https://github.com/adivea/Elenovo2017.git
 ```
 
 Once the download is complete, open the `researchcompendium.Rproj` in RStudio to begin working with the package and compendium files. 
@@ -67,7 +67,7 @@ The package has a number of dependencies on other R packages, and programs outsi
 
 A Docker image is a lightweight GNU/Linux virtual computer that can be run as a piece of software on Windows and OSX (and other Linux systems). To capture the complete computational environment used for this project we have a Dockerfile that specifies how to make the Docker image that we developed this project in. The Docker image includes all of the software dependencies needed to run the code in this project, as well as the R package and other compendium files. To launch the Docker image for this project, first, [install Docker](https://docs.docker.com/installation/) on your computer. At the Docker prompt, enter:
 
-    docker run -dp 8787:8787 adivea/researchcompendium
+    docker run -dp 8787:8787 adivea/Elenovo2017
 
 This will start a server instance of RStudio. Then open your web browser at localhost:8787 or or run `docker-machine ip default` in the shell to find the correct IP address, and log in with rstudio/rstudio.
 
