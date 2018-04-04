@@ -10,7 +10,7 @@ services:
 
 before_install:
     # create & run container, i.e. compile pkg and render Rmd to Word doc
-  - docker build -t benmarwick/researchcompendium .
+  - docker build -t adivea/researchcompendium .
 
 # always!
 # warnings_are_errors: false
