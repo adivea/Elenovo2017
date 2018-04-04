@@ -16,9 +16,9 @@ knitr::opts_chunk$set(
 [![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-brightgreen.svg)](https://github.com/adivea/researchcompendium/commits/master) 
 [![minimal R version](https://img.shields.io/badge/R%3E%3D-`r as.character(getRversion())`-brightgreen.svg)](https://cran.r-project.org/)
 [![Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](http://choosealicense.com/licenses/mit/) 
-[![Travis-CI Build Status](https://travis-ci.org/adivea/researchcompendium.png?branch=master)](https://travis-ci.org/benmarwick/researchcompendium) 
-[![Circle CI](https://circleci.com/gh/adivea/researchcompendium.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/benmarwick/researchcompendium)
-[![codecov.io](https://codecov.io/github/adivea/researchcompendium/coverage.svg?branch=master)](https://codecov.io/github/adivea/researchcompendium?branch=master) [![ORCiD](https://img.shields.io/badge/ORCiD-0000--0002--4541--3963-green.svg)](https://orcid.org/0000-0002-4541-3963) 
+[![Travis-CI Build Status](https://travis-ci.org/adivea/Elenovo2017.png?branch=master)](https://travis-ci.org/adivea/Elenovo2017) 
+[![Circle CI](https://circleci.com/gh/adivea/Elenovo2017.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/benmarwick/researchcompendium)
+[![codecov.io](https://codecov.io/github/adivea/Elenovo2017/coverage.svg?branch=master)](https://codecov.io/github/adivea/Elenovo2017?branch=master) [![ORCiD](https://img.shields.io/badge/ORCiD-0000--0002--4541--3963-green.svg)](https://orcid.org/0000-0002-4541-3963) 
 
 ## Research compendium for a report on xxxx
 
