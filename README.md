@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Last-changedate](https://img.shields.io/badge/last%20change-2016--10--20-brightgreen.svg)](https://github.com/adivea/Elenovo2017/commits/master) [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.3.1-brightgreen.svg)](https://cran.r-project.org/) [![Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](http://choosealicense.com/licenses/mit/) [![Travis-CI Build Status](https://travis-ci.org/adivea/Elenovo2017.png?branch=master)](https://travis-ci.org/adivea/Elenovo2017) [![Circle CI](https://circleci.com/gh/adivea/Elenovo2017.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/adivea/Elenovo2017/) [![codecov.io](https://codecov.io/github/adivea/Elenovo2017/coverage.svg?branch=master)](https://codecov.io/github/adivea/Elenovo2017/?branch=master) [![ORCiD](https://img.shields.io/badge/ORCiD-0000--0002--4541--3963-green.svg)](http://orcid.org/0000-0002-4541-3963)
 
-Research compendium for a report on xxxx
+Research compendium for a report on Elenovo 2017 Mound Verification Campaign
 ----------------------------------------
 
 ### Compendium DOI:
@@ -68,7 +68,7 @@ Data: [CC-0](http://creativecommons.org/publicdomain/zero/1.0/) attribution requ
 
 ### Dependencies
 
-I used [RStudio](http://www.rstudio.com/products/rstudio/) on Ubuntu 16.04 and Windows 7. See the colophon section of the docx file in `analysis/paper` for a full list of the packages that this project depends on.
+I used [RStudio](http://www.rstudio.com/products/rstudio/) on Ubuntu 16.04 and Windows 10. See the colophon section of the docx file in `analysis/paper` for a full list of the packages that this project depends on.
 
 ### Contact
 
