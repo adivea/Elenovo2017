@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Last-changedate](https://img.shields.io/badge/last%20change-2016--10--20-brightgreen.svg)](https://github.com/benmarwick/researchcompendium/commits/master) [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.3.1-brightgreen.svg)](https://cran.r-project.org/) [![Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](http://choosealicense.com/licenses/mit/) [![Travis-CI Build Status](https://travis-ci.org/benmarwick/researchcompendium.png?branch=master)](https://travis-ci.org/benmarwick/researchcompendium) [![Circle CI](https://circleci.com/gh/benmarwick/researchcompendium.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/benmarwick/researchcompendium) [![codecov.io](https://codecov.io/github/benmarwick/researchcompendium/coverage.svg?branch=master)](https://codecov.io/github/benmarwick/researchcompendium?branch=master) [![ORCiD](https://img.shields.io/badge/ORCiD-0000--0001--7879--4531-green.svg)](http://orcid.org/0000-0001-7879-4531)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2016--10--20-brightgreen.svg)](https://github.com/adivea/Elenovo2017/commits/master) [![minimal R version](https://img.shields.io/badge/R%3E%3D-3.3.1-brightgreen.svg)](https://cran.r-project.org/) [![Licence](https://img.shields.io/github/license/mashape/apistatus.svg)](http://choosealicense.com/licenses/mit/) [![Travis-CI Build Status](https://travis-ci.org/adivea/Elenovo2017.png?branch=master)](https://travis-ci.org/adivea/Elenovo2017) [![Circle CI](https://circleci.com/gh/adivea/Elenovo2017.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/adivea/Elenovo2017/) [![codecov.io](https://codecov.io/github/adivea/Elenovo2017/coverage.svg?branch=master)](https://codecov.io/github/adivea/Elenovo2017/?branch=master) [![ORCiD](https://img.shields.io/badge/ORCiD-0000--0002--4541--3963-green.svg)](http://orcid.org/0000-0002-4541-3963)
 
 Research compendium for a report on xxxx
 ----------------------------------------
@@ -8,7 +8,7 @@ Research compendium for a report on xxxx
 
 <http://dx.doi.org/xxxxxxx>
 
-The files at the URL above will generate the results as found in the publication. The files hosted at github.com/benmarwick/researchcompendium are the development versions and may have changed since the report was published
+The files at the URL above will generate the results as found in the publication. The files hosted at github.com/adivea/Elenovo2017 are the development versions and may have changed since the report was published
 
 ### Authors of this repository:
 
@@ -50,7 +50,7 @@ The package has a number of dependencies on other R packages, and programs outsi
 
 A Docker image is a lightweight GNU/Linux virtual computer that can be run as a piece of software on Windows and OSX (and other Linux systems). To capture the complete computational environment used for this project we have a Dockerfile that specifies how to make the Docker image that we developed this project in. The Docker image includes all of the software dependencies needed to run the code in this project, as well as the R package and other compendium files. To launch the Docker image for this project, first, [install Docker](https://docs.docker.com/installation/) on your computer. At the Docker prompt, enter:
 
-    docker run -dp 8787:8787 adivea/researchcompendium
+    docker run -dp 8787:8787 adivea/Elenovo2017
 
 This will start a server instance of RStudio. Then open your web browser at localhost:8787 or or run `docker-machine ip default` in the shell to find the correct IP address, and log in with rstudio/rstudio.
 
