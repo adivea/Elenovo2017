@@ -1,0 +1,166 @@
+#### Processing Elenovo 2017 Mounds
+
+## using both full 2017 dataset and dataset spatially constrained to fall within Yambol boundsries (Bara dataset, Attributes.csv) 
+
+install.packages('raster')
+install.packages('tidyverse')
+library(tidyverse)
+library(RColorBrewer)
+library(ggplot2)
+
+setwd("C:/Users/au616760/Documents/RStudio/Elenovo2017")
+
+#Load datasets: cleaned by Adela and spatial subset by bara
+mounds_adela <- read_csv("data/ElenovoMounds_cleaned.csv")
+mounds_bara <- read_csv2("data/Attributes.csv")
+
+# Visual check
+dim(mounds_adela)
+dim(mounds_bara)
+colnames(mounds_adela)
+colnames(mounds_bara)
+head(mounds_adela)
+
+### Merge the two to get final 2017 mound dataset, which includes 
+# all attributes from my cleaned mounds for all rows included in Bara's (subset of those in Yambol region) 
+
+mounds <- merge(mounds_adela, mounds_bara[,c(2,3,9)], # picking uuid, identifier and type from Bara
+                by ="identifier", all.y=TRUE) 
+colnames(mounds)
+dim(mounds)
+mounds$Latitude[1:5]
+
+#rename duplicate columns 
+colnames(mounds$Type.x) <- "Type_Adela"
+colnames(mounds)[5]<- "Type_Adela"
+colnames(mounds)[43]<-"Type"
+
+#check goodness of data
+summary(mounds$HeightMax) # sanity check of heighs range
+which(mounds$HeightMax[mounds$Type!="Settlement Mound"]>7)
+mounds[65,]  # this shows that Bara's types are better than Adela's
+
+
+levels(mounds$Type)
+class(mounds$Type)
+
+
+mounds$Type[5:10]
+
+# Calculate Height statistics per type of features
+
+Ele <- mounds %>% 
+  group_by(Type) %>% 
+  tally()
+Ele
+
+MedianH <- mounds %>% 
+  group_by(Type) %>% 
+  summarize(medianHeight=median(HeightMax, na.rm=TRUE),medianDiam=median(DiameterMax, na.rm=TRUE)) 
+MedianH
+
+MeanH <- mounds %>% 
+  group_by(Type) %>% 
+  summarize(minHeight=min(HeightMax, na.rm=TRUE), maxHeight=max(HeightMax,na.rm=TRUE), meanHeight = mean(HeightMax, na.rm=TRUE)) 
+MeanH
+  
+MeanDiam <- mounds %>% 
+  group_by(Type) %>% 
+  summarize(minDiam=min(DiameterMax, na.rm=TRUE), maxDiam=max(DiameterMax,na.rm=TRUE), meanDiam = mean(DiameterMax, na.rm=TRUE)) 
+MeanDiam
+
+Ele_stats <- cbind(Ele[-3:-4,],MeanH[-3:-4,2:4], MeanDiam[-3:-4, -1])
+Ele_stats
+
+write_csv(Ele_stats, "Ele_Dimensions_Baramounds.csv")
+write_csv(mounds, "output/2017ElenovoMoundsInYambol.csv")
+
+# Calculate statistics by source (survey or legacy data verification)
+
+Source <- mounds %>% 
+  group_by(Source) %>% 
+  tally()
+Source
+
+Stats <- mounds %>% 
+  group_by(Source) %>% 
+  summarize(minHeight=min(HeightMax, na.rm=TRUE), maxHeight=max(HeightMax,na.rm=TRUE), meanHeight = mean(HeightMax, na.rm=TRUE), 
+            minDiam=min(DiameterMax, na.rm=TRUE), maxDiam=max(DiameterMax,na.rm=TRUE), meanDiam = mean(DiameterMax, na.rm=TRUE)) 
+Stats
+
+Source_stats <- cbind(Source,Stats[,-1])  # eliminate duplicate column
+write_csv(Source_stats, 'Ele_Sourcestats.csv')
+
+
+### Create a BoxPlot comparing the height distributions of mounds (exluding other stuff)
+
+
+# index burial and uncertain mounds
+mounds_index <- which(mounds$Type=="Burial Mound")
+uncertain_index <- which(mounds$Type=="Uncertain Mound")
+extinct_index <- which(mounds$Type=="Extinct Burial Mound")
+
+# create boxplot of heights for mound phenomena (no surf. scatter or other)
+mound_index <- mounds[c(mounds_index,extinct_index,uncertain_index),]
+
+head(mound_index)
+boxplot(HeightMax~Type, mound_index)
+
+boxplot(DiameterMax~Type, mound_index)
+
+
+pdf("output/2017Combined2.pdf", 13, 5 )
+# run the code below to generate the figure for pdf:
+
+par(mfrow=c(1,2)) # to combine the two plots below horizontally
+
+boxplot(HeightMax~Type, data = mound_index, 
+        # col = gray.colors(3),
+        main = "Height distribution",
+        xlab = "", # to eliminate Type as x label
+        ylab = "meters", cex.lab = 1.3,    #cex = increases symbols in plot, cex.lab - increases axis labels
+        cex.axis = 1,                      #cex.axis = increases data labels
+        las = 1) # rotate y axis
+
+boxplot(DiameterMax~Type, mound_index,
+          # col = gray.colors(3),
+          main = "Diameter distribution",
+          ylab = "",
+          xlab = "",   
+          cex.axis = 1,                      #cex.axis = increases data labels
+          las = 1) # rotate y axis
+
+dev.off()
+
+
+
+## Playing with mounds (allt he useful stuff is above)
+
+p <- ggplot(mound_index, aes(Type, HeightMax, color=Type)) +
+  geom_violin(trim=FALSE)
+p
+# violin plot with mean points
+p + stat_summary(fun.y=mean, geom="point", shape=23, size=2)
+# violin plot with median points
+p + stat_summary(fun.y=median, geom="point", size=2, color="red")
+# violin plot with jittered points
+# 0.2 : degree of jitter in x direction
+p + geom_jitter(shape=16, position=position_jitter(0.2))
+
+
+# Get tally of visited features by team leader and day
+mounds %>% 
+  group_by(createdBy) %>% 
+  tally()
+
+
+teamprogress <- mounds %>% 
+  group_by(createdBy, Date) %>% 
+  tally()
+
+teamprogress[20:30,]
+# histograms
+
+mounds %>% 
+  group_by(Source) %>% 
+  ggplot(mounds$HeightMax)
