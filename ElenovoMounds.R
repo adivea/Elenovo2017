@@ -10,9 +10,14 @@ library(ggplot2)
 
 setwd("C:/Users/au616760/Documents/RStudio/Elenovo2017")
 
-#Load datasets: cleaned by Adela and spatial subset by bara
+# Loading datasets: cleaned data by Adela and spatial subset by Bara
+
 mounds_adela <- read_csv("data/ElenovoMounds_cleaned.csv")
 mounds_bara <- read_csv2("data/Attributes.csv")
+
+# Alternative source https://raw.githubusercontent.com/adivea/Elenovo2017/master/data/ElenovoMounds_cleaned.csv
+?download.file() # 
+
 
 # Visual check
 dim(mounds_adela)
@@ -26,6 +31,11 @@ head(mounds_adela)
 
 mounds <- merge(mounds_adela, mounds_bara[,c(2,3,9)], # picking uuid, identifier and type from Bara
                 by ="identifier", all.y=TRUE) 
+
+# alternative but without bara's type
+mounds_adela %>% 
+    filter(mounds_adela$identifier%in%mounds_bara$MoundID)
+
 colnames(mounds)
 dim(mounds)
 mounds$Latitude[1:5]
