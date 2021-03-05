@@ -143,7 +143,25 @@ boxplot(DiameterMax~Type, mound_index,
 dev.off()
 
 ####################################################
+### Wish to try a Shiny application? 
+### Run the 02_interactive_data_explorer.R
 
+
+### Streamlining Mound Condition (can be done in OpenRefine)
+levels(factor(mounds$Condition))
+
+mounds <- mounds %>%
+  mutate(Condition = str_extract(Condition, "\\d")) %>%
+  mutate(Condition = case_when(Condition == 0 ~ "NA",
+                               Condition == 6 ~ "5",
+                               Condition != 0 ~ Condition))
+mounds$Condition <- as.numeric(mounds$Condition)
+unique(mounds$Condition)
+
+write_csv(mounds, "output/Condition.csv")
+
+####################################################
+### Wish to create a map?
 ## Playing with mound height visualisation 
 
 p <- ggplot(mound_index, aes(Type, HeightMax, color=Type)) +
