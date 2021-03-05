@@ -2,15 +2,16 @@
 
 ## using both full 2017 dataset and dataset spatially constrained to fall within Yambol boundsries (Bara dataset, Attributes.csv) 
 
-install.packages('raster')
-install.packages('tidyverse')
+# Load the libraries (install package if needed)
+#install.packages('tidyverse')
 library(tidyverse)
 library(RColorBrewer)
 library(ggplot2)
 
-setwd("C:/Users/au616760/Documents/RStudio/Elenovo2017")
+# Set your workspace if desirable
+#setwd("C:/Users/au616760/Documents/RStudio/Elenovo2017")
 
-# Loading datasets: cleaned data by Adela and spatial subset by Bara
+# Load the datasets: cleaned data by Adela and spatial subset by Bara
 
 mounds_adela <- read_csv("data/ElenovoMounds_cleaned.csv")
 mounds_bara <- read_csv2("data/Attributes.csv")
@@ -41,17 +42,16 @@ dim(mounds)
 mounds$Latitude[1:5]
 
 #rename duplicate columns 
-colnames(mounds$Type.x) <- "Type_Adela"
-colnames(mounds)[5]<- "Type_Adela"
-colnames(mounds)[43]<-"Type"
+colnames(mounds)[5]<- "Type_Adela" #Type.x column renamed
+colnames(mounds)[43]<-"Type" #Type.y renamed
 
 #check goodness of data
-summary(mounds$HeightMax) # sanity check of heighs range
-which(mounds$HeightMax[mounds$Type!="Settlement Mound"]>7)
+summary(mounds$HeightMax) # sanity check of heights range
+which(mounds$HeightMax[mounds$Type!="Settlement Mound"]>7) #65 burial mounds are over 7 m 
 mounds[65,]  # this shows that Bara's types are better than Adela's
 
-
-levels(mounds$Type)
+# check categories of mound type (via conversion to factor) 
+levels(factor(mounds$Type))
 class(mounds$Type)
 
 
@@ -72,7 +72,7 @@ MedianH
 MeanH <- mounds %>% 
   group_by(Type) %>% 
   summarize(minHeight=min(HeightMax, na.rm=TRUE), maxHeight=max(HeightMax,na.rm=TRUE), meanHeight = mean(HeightMax, na.rm=TRUE)) 
-MeanH
+MeanH  # beware of the Uncertain feature if reusing
   
 MeanDiam <- mounds %>% 
   group_by(Type) %>% 
@@ -142,35 +142,53 @@ boxplot(DiameterMax~Type, mound_index,
 
 dev.off()
 
+####################################################
 
-
-## Playing with mounds (allt he useful stuff is above)
+## Playing with mound height visualisation 
 
 p <- ggplot(mound_index, aes(Type, HeightMax, color=Type)) +
   geom_violin(trim=FALSE)
 p
 # violin plot with mean points
-p + stat_summary(fun.y=mean, geom="point", shape=23, size=2)
+p + stat_summary(fun=mean, geom="point", shape=23, size=2)
 # violin plot with median points
-p + stat_summary(fun.y=median, geom="point", size=2, color="red")
+p + stat_summary(fun=median, geom="point", size=2, color="red")
 # violin plot with jittered points
 # 0.2 : degree of jitter in x direction
 p + geom_jitter(shape=16, position=position_jitter(0.2))
 
 
-# Get tally of visited features by team leader and day
+# Get a tally of visited features by team leader and day
 mounds %>% 
   group_by(createdBy) %>% 
   tally()
 
-
+# Review the progress of individual teams
 teamprogress <- mounds %>% 
   group_by(createdBy, Date) %>% 
   tally()
 
-teamprogress[20:30,]
-# histograms
+teamprogress %>% 
+  arrange(desc(n))
 
-mounds %>% 
-  group_by(Source) %>% 
-  ggplot(mounds$HeightMax)
+
+## Create a quick Map
+
+library(leaflet)
+
+map <- leaflet() %>% 
+  addProviderTiles("Esri.WorldTopoMap", group = "Topo") %>%
+  addProviderTiles("Esri.WorldImagery", group = "ESRI Aerial") %>%
+  addCircleMarkers(lng = as.numeric(mounds$Longitude),
+                   lat = as.numeric(mounds$Latitude),
+                   radius = mounds$HeightMax, group="Legacy",
+                   popup = paste0("MoundID: ", mounds$identifier,
+                                  "<br> Height: ", mounds$HeightMax,
+                                  "<br> Robber's trenches: ", mounds$RTDescription)) %>% 
+  addLayersControl(
+    baseGroups = c("Topo","ESRI Aerial"),
+    overlayGroups = c("Legacy"),
+    options = layersControlOptions(collapsed = T))
+
+map
+
